@@ -8,7 +8,7 @@ const port = 5000;
 
 const corsOptions = {
   origin: "http://localhost:3000", // Make sure it points to your frontend
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
 app.use(cors(corsOptions));
@@ -107,6 +107,24 @@ app.post("/tasks", async (req, res) => {
     res.json({ message: "Task saved successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to save task" });
+  }
+});
+
+app.delete("/tasks", async (req, res) => {
+  try {
+    const { date, area, subcategory, item } = req.body;
+
+    // Delete the task from the database
+    const result = await Task.deleteOne({ date, area, subcategory, item });
+
+    if (result.deletedCount > 0) {
+      return res.json({ message: "Task deleted successfully" });
+    } else {
+      return res.status(404).json({ message: "Task not found" });
+    }
+  } catch (err) {
+    console.error("Error deleting task:", err);
+    return res.status(500).json({ message: "Failed to delete task" });
   }
 });
 
