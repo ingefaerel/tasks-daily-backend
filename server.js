@@ -38,28 +38,29 @@ const CalendarClick = mongoose.model("CalendarClick", calendarClickSchema);
 
 const noteSchema = new mongoose.Schema({
   date: { type: String, required: true }, // The date for which the note is created
-  task: { type: String, required: true }, // The task description (e.g., "Yoga")
+  task: { type: String, required: true },
+  area: { type: String, required: true },
   note: { type: String, required: false }, // The note content
 });
 
 const Note = mongoose.model("Note", noteSchema);
 
-// Route to save or update a note for a specific task
 app.post("/tasks/note", async (req, res) => {
   try {
-    const { date, task, note } = req.body;
+    const { date, task, note, area } = req.body;
 
     // Check if the note already exists for this task on the specific date
     let existingNote = await Note.findOne({ date, task });
 
     if (existingNote) {
-      // If a note exists, update it
+      // Update the note and area
       existingNote.note = note;
+      existingNote.area = area; // ✅ Update the area field
       await existingNote.save();
       return res.json({ message: "Note updated successfully" });
     } else {
       // If no note exists, create a new one
-      const newNote = new Note({ date, task, note });
+      const newNote = new Note({ date, task, note, area });
       await newNote.save();
       return res.json({ message: "Note saved successfully" });
     }
