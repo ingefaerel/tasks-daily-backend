@@ -39,7 +39,7 @@ const CalendarClick = mongoose.model("CalendarClick", calendarClickSchema);
 const noteSchema = new mongoose.Schema({
   date: { type: String, required: true }, // The date for which the note is created
   task: { type: String, required: true }, // The task description (e.g., "Yoga")
-  note: { type: String, required: true }, // The note content
+  note: { type: String, required: false }, // The note content
 });
 
 const Note = mongoose.model("Note", noteSchema);
@@ -80,7 +80,7 @@ app.get("/tasks/note/:date/:task", async (req, res) => {
     if (note) {
       return res.json(note);
     } else {
-      return res.status(404).json({ message: "Note not found" });
+      return res.json({ note: null, message: "Note not found" });
     }
   } catch (err) {
     console.error("Error fetching note:", err);
