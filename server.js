@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect("mongodb://127.0.0.1:27017/dailyTracker", {
+mongoose.connect("mongodb://localhost:27017/dailyTracker", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
