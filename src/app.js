@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Routes mounted to match existing frontend usage gjhghjgjhgjhghj
+// Routes mounted to match existing frontend usage
 app.use("/tasks/note", notesRouter); // mount this first
 app.use("/tasks", tasksRouter);
 app.use("/api/calendar", calendarRouter);
